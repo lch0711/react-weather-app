@@ -5,9 +5,8 @@ import WeatherInfo from "./WeatherInfo";
 
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
-
+  const [city, setCity] = useState(props.defaultCity);
   function handleResponse(response) {
-    console.log(response);
     setWeatherData({
       ready: true,
       city: response.data.name,
@@ -16,15 +15,34 @@ export default function Weather(props) {
       wind: response.data.wind.speed,
       description: response.data.weather[0].description,
       cloud: response.data.clouds.all,
-      icon: "https://ssl.gstatic.com/onebox/weather/64/sunny.png",
+      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       date: new Date(response.data.dt * 1000),
     });
+  }
+
+  function search() {
+    let apiKey = "353945fb94bb7d9cc7861a36dae03c52";
+
+    let units = "metric";
+    let urlHead = "https://api.openweathermap.org/data/2.5/weather?";
+    let apiUrl = `${urlHead}q=${city}&appid=${apiKey}&units=${units}`;
+
+    axios.get(apiUrl).then(handleResponse);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function handleCityChange(event) {
+    setCity(event.target.value);
   }
 
   if (weatherData.ready) {
     return (
       <div className="Weather">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-9">
               <input
@@ -32,6 +50,7 @@ export default function Weather(props) {
                 placeholder="Search for a City..."
                 className="form-control"
                 autoFocus="on"
+                onChange={handleCityChange}
               />
             </div>
             <div className="col-3">
@@ -43,14 +62,7 @@ export default function Weather(props) {
       </div>
     );
   } else {
-    let apiKey = "353945fb94bb7d9cc7861a36dae03c52";
-
-    let units = "metric";
-    let urlHead = "https://api.openweathermap.org/data/2.5/weather?";
-    let apiUrl = `${urlHead}q=${props.defaultCity}&appid=${apiKey}&units=${units}`;
-
-    axios.get(apiUrl).then(handleResponse);
-
+    search();
     return "Loading...";
   }
 }
