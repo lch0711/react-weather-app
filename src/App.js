@@ -8,13 +8,14 @@ function App() {
       <div className="container">
         <Weather />
         <footer>
-          Coded by Lai Shuan Chung and is{" "}
           <a
             href="https://github.com/lch0711/react-weather-app"
             target="_blank"
+            rel="noreferrer"
           >
-            open-sourced on Github
-          </a>
+            Open-Source Code
+          </a>{" "}
+          by Lai Shuan Chung
         </footer>
       </div>
     </div>

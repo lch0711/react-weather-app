@@ -12,6 +12,24 @@ h1 {
   font-size: 35px;
   margin: 0;
 }
+.Weather img {
+  height: 64px;
+  margin-right: 10px;
+  position: relative;
+  bottom: 16px;
+}
+
+.Weather .temperature {
+  font-size: 60px;
+  font-weight: 400;
+}
+
+.Weather .units {
+  font-size: 16px;
+  position: relative;
+  bottom: 32px;
+  margin-left: 5px;
+}
 
 ul {
   margin: 0;
